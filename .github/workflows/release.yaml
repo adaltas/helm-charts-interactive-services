@@ -6,13 +6,13 @@ on:
     branches:
       - main
     paths:
-      - 'charts/**'
-      - 'utils/charts-inheritance.yaml'
-      - 'utils/generate-children-charts.py'
+      - "charts/**"
+      - "utils/charts-inheritance.yaml"
+      - "utils/generate-children-charts.py"
 
 jobs:
   release:
-    if: github.repository == 'InseeFrLab/helm-charts-interactive-services'
+    if: github.repository == 'adaltas/helm-charts-interactive-services'
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
     # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
@@ -32,7 +32,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: "3.13"
 
       - name: Generate children charts
         run: |
