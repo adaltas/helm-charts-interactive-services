@@ -1,8 +1,8 @@
-# marimo-python
+# vscode-r-python-julia
 
-![Version: 2.4.1](https://img.shields.io/badge/Version-2.4.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.5.5](https://img.shields.io/badge/Version-2.5.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-A Helm chart for Marimo Python environment
+The VSCode IDE with minimal installations of R, Python and Julia.
 
 **Homepage:** <https://code.visualstudio.com/>
 
@@ -15,7 +15,7 @@ A Helm chart for Marimo Python environment
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://inseefrlab.github.io/helm-charts-interactive-services | library-chart | 2.0.1 |
+| https://inseefrlab.github.io/helm-charts-interactive-services | library-chart | 2.0.4 |
 
 ## Values
 
@@ -39,6 +39,7 @@ A Helm chart for Marimo Python environment
 | environment.user | string | `"onyxia"` |  |
 | extraEnvVars | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
+| git.asCodeServerRoot | bool | `false` |  |
 | git.branch | string | `""` |  |
 | git.cache | string | `""` |  |
 | git.email | string | `""` |  |
@@ -74,7 +75,7 @@ A Helm chart for Marimo Python environment
 | mlflow.secretName | string | `""` |  |
 | nameOverride | string | `""` |  |
 | networking.clusterIP | string | `"None"` |  |
-| networking.service.port | int | `2718` |  |
+| networking.service.port | int | `8080` |  |
 | networking.type | string | `"ClusterIP"` |  |
 | networking.user.enabled | bool | `false` |  |
 | networking.user.port | int | `5000` |  |
@@ -103,6 +104,7 @@ A Helm chart for Marimo Python environment
 | route.tls.termination | string | `"edge"` |  |
 | route.userHostname | string | `"chart-example-user.local"` |  |
 | route.wildcardPolicy | string | `"None"` |  |
+| runtimeClassName | string | `""` |  |
 | s3.accessKeyId | string | `""` |  |
 | s3.defaultRegion | string | `""` |  |
 | s3.enabled | bool | `false` |  |
@@ -119,9 +121,9 @@ A Helm chart for Marimo Python environment
 | security.password | string | `"changeme"` |  |
 | securityContext | object | `{}` |  |
 | service.image.custom.enabled | bool | `false` |  |
-| service.image.custom.version | string | `"pacordonnier/marimo:latest"` |  |
+| service.image.custom.version | string | `"inseefrlab/onyxia-vscode-r-python-julia:r4.5.3-py3.13.12"` |  |
 | service.image.pullPolicy | string | `"IfNotPresent"` |  |
-| service.image.version | string | `"pacordonnier/marimo:latest"` |  |
+| service.image.version | string | `"inseefrlab/onyxia-vscode-r-python-julia:r4.5.3-py3.13.12"` |  |
 | service.initContainer.image | string | `"inseefrlab/onyxia-base:latest"` |  |
 | service.initContainer.pullPolicy | string | `"IfNotPresent"` |  |
 | serviceAccount.annotations | object | `{}` |  |

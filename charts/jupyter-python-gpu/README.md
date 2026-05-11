@@ -1,10 +1,10 @@
-# marimo-python
+# jupyter-python-gpu
 
-![Version: 2.4.1](https://img.shields.io/badge/Version-2.4.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.4.7](https://img.shields.io/badge/Version-2.4.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-A Helm chart for Marimo Python environment
+The JupyterLab IDE with Python, and a collection of standard data science packages, with GPU support.
 
-**Homepage:** <https://code.visualstudio.com/>
+**Homepage:** <https://jupyter.org/>
 
 ## Source Code
 
@@ -15,7 +15,7 @@ A Helm chart for Marimo Python environment
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://inseefrlab.github.io/helm-charts-interactive-services | library-chart | 2.0.1 |
+| https://inseefrlab.github.io/helm-charts-interactive-services | library-chart | 2.0.4 |
 
 ## Values
 
@@ -42,9 +42,11 @@ A Helm chart for Marimo Python environment
 | git.branch | string | `""` |  |
 | git.cache | string | `""` |  |
 | git.email | string | `""` |  |
-| git.enabled | bool | `true` |  |
+| git.enabled | bool | `false` |  |
 | git.name | string | `""` |  |
+| git.repository | string | `""` |  |
 | git.secretName | string | `""` |  |
+| git.token | string | `""` |  |
 | global.suspend | bool | `false` |  |
 | hive.secretName | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
@@ -63,9 +65,8 @@ A Helm chart for Marimo Python environment
 | init.personalInit | string | `""` |  |
 | init.personalInitArgs | string | `""` |  |
 | init.regionInit | string | `""` |  |
-| init.regionInitCheckSum | string | `""` |  |
 | init.standardInitPath | string | `"/opt/onyxia-init.sh"` |  |
-| kubernetes.enabled | bool | `true` |  |
+| kubernetes.enabled | bool | `false` |  |
 | kubernetes.role | string | `"view"` |  |
 | message.en | string | `""` |  |
 | message.fr | string | `""` |  |
@@ -74,7 +75,8 @@ A Helm chart for Marimo Python environment
 | mlflow.secretName | string | `""` |  |
 | nameOverride | string | `""` |  |
 | networking.clusterIP | string | `"None"` |  |
-| networking.service.port | int | `2718` |  |
+| networking.service.port | int | `8888` |  |
+| networking.sparkui.port | int | `4040` |  |
 | networking.type | string | `"ClusterIP"` |  |
 | networking.user.enabled | bool | `false` |  |
 | networking.user.port | int | `5000` |  |
@@ -83,7 +85,7 @@ A Helm chart for Marimo Python environment
 | openshiftSCC.enabled | bool | `false` |  |
 | openshiftSCC.scc | string | `""` |  |
 | persistence.accessMode | string | `"ReadWriteOnce"` |  |
-| persistence.enabled | bool | `true` |  |
+| persistence.enabled | bool | `false` |  |
 | persistence.size | string | `"10Gi"` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext.fsGroup | int | `100` |  |
@@ -103,6 +105,7 @@ A Helm chart for Marimo Python environment
 | route.tls.termination | string | `"edge"` |  |
 | route.userHostname | string | `"chart-example-user.local"` |  |
 | route.wildcardPolicy | string | `"None"` |  |
+| runtimeClassName | string | `""` |  |
 | s3.accessKeyId | string | `""` |  |
 | s3.defaultRegion | string | `""` |  |
 | s3.enabled | bool | `false` |  |
@@ -119,9 +122,9 @@ A Helm chart for Marimo Python environment
 | security.password | string | `"changeme"` |  |
 | securityContext | object | `{}` |  |
 | service.image.custom.enabled | bool | `false` |  |
-| service.image.custom.version | string | `"pacordonnier/marimo:latest"` |  |
+| service.image.custom.version | string | `"inseefrlab/onyxia-jupyter-python:py3.13.12-gpu"` |  |
 | service.image.pullPolicy | string | `"IfNotPresent"` |  |
-| service.image.version | string | `"pacordonnier/marimo:latest"` |  |
+| service.image.version | string | `"inseefrlab/onyxia-jupyter-python:py3.13.12-gpu"` |  |
 | service.initContainer.image | string | `"inseefrlab/onyxia-base:latest"` |  |
 | service.initContainer.pullPolicy | string | `"IfNotPresent"` |  |
 | serviceAccount.annotations | object | `{}` |  |
@@ -135,11 +138,10 @@ A Helm chart for Marimo Python environment
 | tolerations | list | `[]` |  |
 | userPreferences.aiAssistant.apiBase | string | `""` |  |
 | userPreferences.aiAssistant.apiKey | string | `""` |  |
+| userPreferences.aiAssistant.embeddingsProvider | string | `""` |  |
 | userPreferences.aiAssistant.enabled | bool | `false` |  |
-| userPreferences.aiAssistant.model | string | `""` |  |
-| userPreferences.aiAssistant.provider | string | `""` |  |
+| userPreferences.aiAssistant.modelProvider | string | `""` |  |
 | userPreferences.aiAssistant.secretName | string | `""` |  |
-| userPreferences.aiAssistant.useLegacyCompletionsEndpoint | bool | `false` |  |
 | userPreferences.darkMode | bool | `false` |  |
 | userPreferences.language | string | `"en"` |  |
 | vault.directory | string | `""` |  |
