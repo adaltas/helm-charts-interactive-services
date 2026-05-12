@@ -1,10 +1,10 @@
 # marimo-python
 
-![Version: 2.4.1](https://img.shields.io/badge/Version-2.4.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-A Helm chart for Marimo Python environment
+Marimo reactive Python notebook with Python, and a collection of standard data science packages
 
-**Homepage:** <https://code.visualstudio.com/>
+**Homepage:** <https://marimo.io/>
 
 ## Source Code
 
@@ -39,6 +39,7 @@ A Helm chart for Marimo Python environment
 | environment.user | string | `"onyxia"` |  |
 | extraEnvVars | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
+| git.asCodeServerRoot | bool | `false` |  |
 | git.branch | string | `""` |  |
 | git.cache | string | `""` |  |
 | git.email | string | `""` |  |
@@ -119,9 +120,9 @@ A Helm chart for Marimo Python environment
 | security.password | string | `"changeme"` |  |
 | securityContext | object | `{}` |  |
 | service.image.custom.enabled | bool | `false` |  |
-| service.image.custom.version | string | `"pacordonnier/marimo:latest"` |  |
+| service.image.custom.version | string | `"pacordonnier/marimo-python:py3.13.12"` |  |
 | service.image.pullPolicy | string | `"IfNotPresent"` |  |
-| service.image.version | string | `"pacordonnier/marimo:latest"` |  |
+| service.image.version | string | `"pacordonnier/marimo-python:py3.13.12"` |  |
 | service.initContainer.image | string | `"inseefrlab/onyxia-base:latest"` |  |
 | service.initContainer.pullPolicy | string | `"IfNotPresent"` |  |
 | serviceAccount.annotations | object | `{}` |  |
