@@ -1,11 +1,12 @@
 apiVersion: v2
-name: marimo-python
-description: Marimo reactive Python notebook with Python, and a collection of standard data science packages
-# TODO: change the icon
+name: marimo-pyspark
+description: Marimo reactive Python notebook with PySpark support.
 icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
 keywords:
-  - Marimo
+  - marimo
   - Python
+  - Spark
+  - VTL
 home: https://marimo.io/
 sources:
   - https://github.com/InseeFrLab/images-datascience
@@ -26,5 +27,5 @@ type: application
 version: 0.0.1
 dependencies:
   - name: library-chart
-    version: 2.0.1
+    version: 2.0.4
     repository: https://inseefrlab.github.io/helm-charts-interactive-services

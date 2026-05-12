@@ -23,16 +23,18 @@
             "version": {
               "title": "Name of the service's Docker image",
               "type": "string",
-              "default": "pacordonnier/marimo-python:3.13.13",
               "listEnum": [
-                "pacordonnier/marimo-python:3.13.13",
-                "pacordonnier/marimo-python:3.12.13"
+                "pacordonnier/marimo-pyspark:py3.13.12-spark4.1.1",
+                "pacordonnier/marimo-pyspark:py3.12.13-spark4.1.1",
+                "pacordonnier/marimo-pyspark:py3.13.8-spark3.5.7",
+                "pacordonnier/marimo-pyspark:py3.12.13-spark3.5.7"
               ],
               "render": "list",
               "hidden": {
                 "value": true,
                 "path": "service/image/custom/enabled"
-              }
+              },
+              "default": "pacordonnier/marimo-pyspark:py3.13.12-spark4.1.1"
             },
             "custom": {
               "title": "Custom image",
@@ -49,7 +51,7 @@
                 "version": {
                   "title": "Name of the custom image",
                   "type": "string",
-                  "default": "pacordonnier/marimo:latest",
+                  "default": "pacordonnier/marimo-pyspark:py3.13.12-spark4.1.1",
                   "hidden": {
                     "value": false,
                     "path": "enabled",
@@ -58,6 +60,62 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "spark": {
+      "title": "Spark",
+      "type": "object",
+      "x-onyxia": {
+        "overwriteSchemaWith": "spark.json"
+      },
+      "properties": {
+        "ui": {
+          "title": "Enable monitoring interface",
+          "type": "boolean",
+          "default": true
+        },
+        "hostname": {
+          "type": "string",
+          "form": true,
+          "title": "Hostname",
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "{{project.id}}-{{k8s.randomSubdomain}}-spark.{{k8s.domain}}"
+          }
+        },
+        "default": {
+          "title": "Create a Spark configuration",
+          "type": "boolean",
+          "default": true
+        },
+        "disabledCertChecking": {
+          "title": "Disable certificate checking for S3 storage",
+          "description": "(do not disable in production)",
+          "type": "boolean",
+          "default": false
+        },
+        "userConfig": {
+          "title": "Spark configuration (spark-default.conf)",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {
+            "spark.dynamicAllocation.enabled": "true",
+            "spark.dynamicAllocation.initialExecutors": "1",
+            "spark.dynamicAllocation.minExecutors": "1",
+            "spark.dynamicAllocation.maxExecutors": "10",
+            "spark.executor.memory": "2g",
+            "spark.driver.memory": "2g",
+            "spark.dynamicAllocation.executorAllocationRatio": "1",
+            "spark.dynamicAllocation.shuffleTracking.enabled": "true",
+            "spark.hadoop.fs.s3a.bucket.all.committer.magic.enabled": "true"
+          },
+          "hidden": {
+            "value": false,
+            "path": "spark/default"
           }
         }
       }
@@ -85,11 +143,7 @@
               "sliderUnit": "m",
               "sliderExtremity": "down",
               "sliderExtremitySemantic": "guaranteed",
-              "sliderRangeId": "cpu",
-              "x-onyxia": {
-                "overwriteDefaultWith": "region.resources.cpuRequest",
-                "useRegionSliderConfig": "cpu"
-              }
+              "sliderRangeId": "cpu"
             },
             "memory": {
               "description": "Guaranteed memory allocation",
@@ -103,11 +157,7 @@
               "sliderUnit": "Gi",
               "sliderExtremity": "down",
               "sliderExtremitySemantic": "guaranteed",
-              "sliderRangeId": "memory",
-              "x-onyxia": {
-                "overwriteDefaultWith": "region.resources.memoryRequest",
-                "useRegionSliderConfig": "memory"
-              }
+              "sliderRangeId": "memory"
             }
           }
         },
@@ -127,11 +177,7 @@
               "sliderUnit": "m",
               "sliderExtremity": "up",
               "sliderExtremitySemantic": "Maximum",
-              "sliderRangeId": "cpu",
-              "x-onyxia": {
-                "overwriteDefaultWith": "region.resources.cpuLimit",
-                "useRegionSliderConfig": "cpu"
-              }
+              "sliderRangeId": "cpu"
             },
             "memory": {
               "description": "Maximum memory allocation",
@@ -145,11 +191,7 @@
               "sliderUnit": "Gi",
               "sliderExtremity": "up",
               "sliderExtremitySemantic": "Maximum",
-              "sliderRangeId": "memory",
-              "x-onyxia": {
-                "overwriteDefaultWith": "region.resources.memoryLimit",
-                "useRegionSliderConfig": "memory"
-              }
+              "sliderRangeId": "memory"
             }
           }
         }
@@ -204,15 +246,6 @@
             "overwriteDefaultWith": "{{k8s.initScriptUrl}}"
           }
         },
-        "regionInitCheckSum": {
-          "type": "string",
-          "description": "region initialization script",
-          "default": "",
-          "x-onyxia": {
-            "hidden": true,
-            "overwriteDefaultWith": "{{k8s.initScriptCheckSum}}"
-          }
-        },
         "personalInit": {
           "title": "Use a custom script (URL)",
           "type": "string",
@@ -253,7 +286,7 @@
       "title": "Kubernetes permissions",
       "type": "object",
       "x-onyxia": {
-        "overwriteSchemaWith": "ide/role.json"
+        "overwriteSchemaWith": "role-spark.json"
       },
       "properties": {
         "enabled": {
@@ -265,7 +298,7 @@
           "title": "Kubernetes role",
           "description": "access is restricted to your own namespace",
           "type": "string",
-          "default": "view",
+          "default": "admin",
           "hidden": {
             "value": false,
             "path": "kubernetes/enabled"
@@ -276,33 +309,6 @@
             "admin"
           ],
           "render": "list"
-        }
-      }
-    },
-    "openshiftSCC": {
-      "description": "configuration for openshift compatibility",
-      "type": "object",
-      "x-onyxia": {
-        "overwriteSchemaWith": "ide/openshiftSCC.json"
-      },
-      "properties": {
-        "enabled": {
-          "description": "enable rolebinding with openshift scc",
-          "type": "boolean",
-          "default": false,
-          "x-onyxia": {
-            "hidden": true,
-            "overwriteDefaultWith": "region.openshiftSCC.enabled"
-          }
-        },
-        "scc": {
-          "type": "string",
-          "description": "name of scc for rolebinding",
-          "default": "anyuid",
-          "x-onyxia": {
-            "hidden": true,
-            "overwriteDefaultWith": "region.openshiftSCC.scc"
-          }
         }
       }
     },
@@ -396,7 +402,7 @@
           "title": "Access Key ID",
           "type": "string",
           "x-onyxia": {
-            "overwriteDefaultWith": "s3.AWS_ACCESS_KEY_ID"
+            "overwriteDefaultWith": "{{s3.AWS_ACCESS_KEY_ID}}"
           },
           "hidden": {
             "value": false,
@@ -717,9 +723,35 @@
         "type": "string"
       },
       "x-onyxia": {
-        "hidden": false,
-        "overwriteDefaultWith": "region.nodeSelector",
-        "overwriteSchemaWith": "nodeSelector.json"
+        "hidden": true,
+        "overwriteDefaultWith": "region.nodeSelector"
+      }
+    },
+    "openshiftSCC": {
+      "description": "configuration for openshift compatibility",
+      "type": "object",
+      "x-onyxia": {
+        "overwriteSchemaWith": "ide/openshiftSCC.json"
+      },
+      "properties": {
+        "enabled": {
+          "description": "enable rolebinding with openshift scc",
+          "type": "boolean",
+          "default": false,
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "region.openshiftSCC.enabled"
+          }
+        },
+        "scc": {
+          "type": "string",
+          "description": "name of scc for rolebinding",
+          "default": "anyuid",
+          "x-onyxia": {
+            "hidden": true,
+            "overwriteDefaultWith": "region.openshiftSCC.scc"
+          }
+        }
       }
     },
     "ingress": {
@@ -860,6 +892,47 @@
           "x-onyxia": {
             "hidden": true,
             "overwriteDefaultWith": "{{packageRepositoryInjection.condaProxyUrl}}"
+          }
+        }
+      }
+    },
+    "proxy": {
+      "description": "It can be used to inject proxy settings in the services",
+      "type": "object",
+      "x-onyxia": {
+        "overwriteSchemaWith": "proxy.json"
+      },
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Inject proxy settings",
+          "default": false
+        },
+        "httpProxy": {
+          "type": "string",
+          "description": "URL of the enterprise proxy for the region for HTTP.",
+          "default": "",
+          "hidden": {
+            "value": false,
+            "path": "proxy/enabled"
+          }
+        },
+        "httpsProxy": {
+          "type": "string",
+          "description": "URL of the enterprise proxy for the region for HTTPS.",
+          "default": "",
+          "hidden": {
+            "value": false,
+            "path": "proxy/enabled"
+          }
+        },
+        "noProxy": {
+          "type": "string",
+          "description": "enterprise local domain that should not take proxy comma separated",
+          "default": "",
+          "hidden": {
+            "value": false,
+            "path": "proxy/enabled"
           }
         }
       }
@@ -1033,47 +1106,6 @@
         }
       }
     },
-    "proxy": {
-      "description": "It can be used to inject proxy settings in the services",
-      "type": "object",
-      "x-onyxia": {
-        "overwriteSchemaWith": "proxy.json"
-      },
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Inject proxy settings",
-          "default": false
-        },
-        "httpProxy": {
-          "type": "string",
-          "description": "URL of the enterprise proxy for the region for HTTP.",
-          "default": "",
-          "hidden": {
-            "value": false,
-            "path": "proxy/enabled"
-          }
-        },
-        "httpsProxy": {
-          "type": "string",
-          "description": "URL of the enterprise proxy for the region for HTTPS.",
-          "default": "",
-          "hidden": {
-            "value": false,
-            "path": "proxy/enabled"
-          }
-        },
-        "noProxy": {
-          "type": "string",
-          "description": "enterprise local domain that should not take proxy comma separated",
-          "default": "",
-          "hidden": {
-            "value": false,
-            "path": "proxy/enabled"
-          }
-        }
-      }
-    },
     "certificates": {
       "description": "It can be used to inject certificate authority into the services, if the Helm chart in the catalog allows it you can bind this value to the Helm chart value to add some certificate authorities in the pod.",
       "type": "object",
@@ -1118,6 +1150,15 @@
           "description": "message to add in notes",
           "default": ""
         }
+      }
+    },
+    "runtimeClassName" : {
+      "type": "string",
+      "description": "Runtime Class Name",
+      "default": "",
+      "x-onyxia": {
+        "hidden": true,
+        "overwriteSchemaWith": "ide/runtimeClassName.json"
       }
     }
   }

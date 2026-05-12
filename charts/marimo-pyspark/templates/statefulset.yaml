@@ -6,8 +6,8 @@ metadata:
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
 spec:
-{{- if not (.Values.autoscaling).enabled }}
-  {{- if (.Values.global).suspend }}
+{{- if not .Values.autoscaling.enabled }}
+  {{- if .Values.global.suspend }}
   replicas: 0
   {{- else }}
   replicas: {{ .Values.replicaCount }}
@@ -29,8 +29,14 @@ spec:
         {{- if (.Values.vault).enabled }}
         checksum/vault: {{ include (print $.Template.BasePath "/secret-vault.yaml") . | sha256sum }}
         {{- end }}
+        {{- if not (empty (trim (include "library-chart.secretCoreSite" .))) }}
+        checksum/coresite: {{ include (print $.Template.BasePath "/secret-coresite.yaml") . | sha256sum }}
+        {{- end }}
         {{- if not (empty (trim (include "library-chart.secretHive" .))) }}
         checksum/hive: {{ include (print $.Template.BasePath "/secret-hive.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if not (empty (trim (include "library-chart.secretIvySettings" .))) }}
+        checksum/ivysettings: {{ include (print $.Template.BasePath "/secret-ivysettings.yaml") . | sha256sum }}
         {{- end }}
         {{- if not (empty (trim (include "library-chart.secretMetaflow" .))) }}
         checksum/metaflow: {{ include (print $.Template.BasePath "/secret-metaflow.yaml") . | sha256sum }}
@@ -50,7 +56,10 @@ spec:
         {{- if (include "library-chart.repository.enabled"  .) }}
         checksum/repository: {{ include (print $.Template.BasePath "/configmap-repository.yaml") . | sha256sum }}
         {{- end }}
-        {{- if and .Values.certificates .Values.certificates.cacerts }}
+        {{- if not (empty (trim (include "library-chart.secretSparkConf" .))) }}
+        checksum/sparkconf: {{ include (print $.Template.BasePath "/secret-sparkconf.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if (.Values.certificates).cacerts }}
         checksum/cacerts: {{ .Values.certificates.cacerts | sha256sum }}
         {{- end }}
         {{- with .Values.podAnnotations }}
@@ -59,9 +68,10 @@ spec:
       labels:
         {{- include "library-chart.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.runtimeClassName -}}
+      runtimeClassName: {{ .Values.runtimeClassName }}
+      {{- end }}
       volumes:
-        - name: config-files
-          emptyDir: {}
         - name: home
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
@@ -78,15 +88,32 @@ spec:
           secret:
             secretName: {{ include "library-chart.secretNameProxy" . }}
         {{- end }}
-        {{- if .Values.discovery.hive }}
+        {{- if .Values.spark.default }}
+        - name: secret-sparkconf
+          secret:
+            secretName: {{ include "library-chart.secretNameSparkConf" . }}
+        {{- end }}
+        {{- if and (.Values.spark).default (.Values.repository).mavenRepository }}
+        - name: secret-ivysettings
+          secret:
+            secretName: {{ include "library-chart.secretNameIvySettings" . }}
+        {{- end }}
+        {{- if (.Values.discovery).hive }}
         - name: secret-hive
           secret:
             secretName: {{ include "library-chart.secretNameHive" . }}
         {{- end }}
-        {{- if .Values.discovery.metaflow }}
+        {{- if (.Values.discovery).metaflow }}
         - name: secret-metaflow
           secret:
             secretName: {{ include "library-chart.secretNameMetaflow" . }}
+        {{- end }}
+        - name: config-files
+          emptyDir: {}
+        {{- if .Values.s3.enabled }}
+        - name: secret-coresite
+          secret:
+            secretName: {{ include "library-chart.secretNameCoreSite" . }}
         {{- end }}
         {{- if and .Values.certificates .Values.certificates.cacerts }}
         - name: cacerts
@@ -121,6 +148,18 @@ spec:
               mkdir /dest/continue
               cp /src/continue/config.yaml /dest/continue/config.yaml
               {{- end }}
+              {{- if .Values.s3.enabled }}
+              mkdir /dest/coresite;
+              cp /src/coresite/core-site.xml /dest/coresite/core-site.xml;
+              {{- end }}
+              {{- if .Values.spark.default }}
+              mkdir /dest/spark;
+              cp /src/spark/spark-defaults.conf /dest/spark/spark-defaults.conf;
+              {{- end }}
+              {{- if and (.Values.spark.default) (.Values.repository.mavenRepository) }}
+              mkdir /dest/ivysettings;
+              cp /src/ivysettings/ivysettings.xml /dest/ivysettings/ivysettings.xml;
+              {{- end }}
               {{- if .Values.discovery.hive }}
               mkdir /dest/hive;
               cp /src/hive/hive-site.xml /dest/hive/hive-site.xml;
@@ -145,17 +184,29 @@ spec:
             {{- end }}
             - name: config-files
               mountPath: /dest
-            {{- if and .Values.certificates .Values.certificates.cacerts }}
+            {{- if (.Values.certificates).cacerts }}
             - name: cacerts
               mountPath: /cacerts
             {{- end }}
-            {{- if .Values.discovery.hive }}
+            {{- if (.Values.s3).enabled }}
+            - name: secret-coresite
+              mountPath: /src/coresite
+            {{- end }}
+            {{- if (.Values.discovery).hive }}
             - name: secret-hive
               mountPath: /src/hive
             {{- end }}
-            {{- if .Values.discovery.metaflow }}
+            {{- if and (.Values.spark.default) (.Values.repository.mavenRepository) }}
+            - name: secret-ivysettings
+              mountPath: /src/ivysettings
+            {{- end }}
+            {{- if (.Values.discovery).metaflow }}
             - name : secret-metaflow
               mountPath: /src/metaflow
+            {{- end }}
+            {{- if (.Values.spark).default }}
+            - name: secret-sparkconf
+              mountPath: /src/spark
             {{- end }}
           resources:
             limits:
@@ -180,13 +231,25 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.service.image.pullPolicy }}
           env:
+            - name: KUBERNETES_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: IMAGE_NAME
+              {{- if .Values.service.image.custom.enabled }}
+              value: "{{ .Values.service.image.custom.version }}"
+              {{- else }}
+              value: "{{ .Values.service.image.version }}"
+              {{- end }}
+            - name: PROJECT_USER
+              value: {{ .Values.environment.user }}
+            - name: PROJECT_GROUP
+              value: {{ .Values.environment.group }}
+            - name: ROOT_PROJECT_DIRECTORY
+              value: /home/{{ .Values.environment.user }}/work
             {{- if .Values.init.regionInit }}
             - name: REGION_INIT_SCRIPT
               value: {{ .Values.init.regionInit }}
-            {{- end }}
-            {{- if .Values.init.regionInitCheckSum }}
-            - name: REGION_INIT_SCRIPT_CHECKSUM
-              value: {{ .Values.init.regionInitCheckSum }}
             {{- end }}
             {{- if .Values.init.personalInit }}
             - name: PERSONAL_INIT_SCRIPT
@@ -196,12 +259,10 @@ spec:
             - name: PERSONAL_INIT_ARGS
               value: {{ .Values.init.personalInitArgs }}
             {{- end }}
-            - name: PROJECT_USER
-              value: {{ .Values.environment.user }}
-            - name: PROJECT_GROUP
-              value: {{ .Values.environment.group }}
-            - name: ROOT_PROJECT_DIRECTORY
-              value: /home/{{ .Values.environment.user }}/work
+            {{- if .Values.environment.root }}
+            - name: GRANT_SUDO
+              value: "yes"
+            {{- end }}
             {{- if .Values.userPreferences.darkMode }}
             - name: DARK_MODE
               value: "true"
@@ -210,7 +271,7 @@ spec:
               value: /home/{{ .Values.environment.user }}/work/.cache/uv
           envFrom:
             - secretRef:
-                name : {{ include "library-chart.secretNameToken" . }}
+                name: {{ include "library-chart.secretNameToken" . }}
             {{- if (.Values.git).enabled }}
             - secretRef:
                 name: {{ include "library-chart.secretNameGit" . }}
@@ -227,7 +288,7 @@ spec:
             - secretRef:
                 name: {{ include "library-chart.secretNameProxy" . }}
             {{- end }}
-            {{- if (include "library-chart.repository.enabled" .) }}
+            {{- if (include "library-chart.repository.enabled"  .) }}
             - configMapRef:
                 name: {{ include "library-chart.configMapNameRepository" . }}
             {{- end }}
@@ -283,6 +344,21 @@ spec:
             - mountPath: /home/{{ .Values.environment.user }}/.continue
               subPath: continue
               name: config-files
+            {{- end }}
+            {{- if (.Values.s3).enabled }}
+            - mountPath: /usr/local/lib/hadoop/etc/hadoop/core-site.xml
+              subPath: coresite/core-site.xml
+              name: config-files
+            {{- end }}
+            {{- if (.Values.spark).default }}
+            - name: config-files
+              mountPath: /usr/local/lib/spark/conf/spark-defaults.conf
+              subPath: spark/spark-defaults.conf
+            {{- end }}
+            {{- if and (.Values.spark.default) (.Values.repository.mavenRepository) }}
+            - name: config-files
+              mountPath: /usr/local/lib/spark/conf/ivysettings.xml
+              subPath: ivysettings/ivysettings.xml
             {{- end }}
             {{- if (.Values.discovery).hive }}
             - name: config-files

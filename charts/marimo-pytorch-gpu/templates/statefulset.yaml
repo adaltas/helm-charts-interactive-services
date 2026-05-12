@@ -59,6 +59,9 @@ spec:
       labels:
         {{- include "library-chart.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.runtimeClassName -}}
+      runtimeClassName: {{ .Values.runtimeClassName }}
+      {{- end }}
       volumes:
         - name: config-files
           emptyDir: {}
@@ -98,9 +101,6 @@ spec:
           secret:
             secretName: {{ include "library-chart.secretNameAssistant" . }}
         {{- end }}
-        - name: token
-          secret:
-            secretName: {{ include "library-chart.secretNameToken" . }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

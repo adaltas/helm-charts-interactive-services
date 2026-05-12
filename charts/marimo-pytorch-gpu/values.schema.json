@@ -23,10 +23,10 @@
             "version": {
               "title": "Name of the service's Docker image",
               "type": "string",
-              "default": "pacordonnier/marimo-python:3.13.13",
+              "default": "pacordonnier/marimo-pytorch:py3.13.12-gpu",
               "listEnum": [
-                "pacordonnier/marimo-python:3.13.13",
-                "pacordonnier/marimo-python:3.12.13"
+                "pacordonnier/marimo-pytorch:py3.13.12-gpu",
+                "pacordonnier/marimo-pytorch:py3.12.13-gpu"
               ],
               "render": "list",
               "hidden": {
@@ -49,7 +49,7 @@
                 "version": {
                   "title": "Name of the custom image",
                   "type": "string",
-                  "default": "pacordonnier/marimo:latest",
+                  "default": "pacordonnier/marimo-pytorch:py3.13.12-gpu",
                   "hidden": {
                     "value": false,
                     "path": "enabled",
@@ -66,7 +66,7 @@
       "title": "Resources (CPU/RAM)",
       "type": "object",
       "x-onyxia": {
-        "overwriteSchemaWith": "ide/resources.json"
+        "overwriteSchemaWith": "ide/resources-gpu.json"
       },
       "properties": {
         "requests": {
@@ -149,6 +149,20 @@
               "x-onyxia": {
                 "overwriteDefaultWith": "region.resources.memoryLimit",
                 "useRegionSliderConfig": "memory"
+              }
+            },
+            "nvidia.com/gpu": {
+              "description": "GPU to allocate to this instance. This is also requested",
+              "type": "string",
+              "default": "1",
+              "render": "slider",
+              "sliderMin": 1,
+              "sliderMax": 3,
+              "sliderStep": 1,
+              "sliderUnit": "",
+              "x-onyxia": {
+                "overwriteDefaultWith": "region.resources.gpu",
+                "useRegionSliderConfig": "gpu"
               }
             }
           }
@@ -710,16 +724,12 @@
       }
     },
     "nodeSelector": {
-      "title": "Node selector",
       "type": "object",
+      "description": "NodeSelector",
       "default": {},
-      "additionalProperties": {
-        "type": "string"
-      },
       "x-onyxia": {
-        "hidden": false,
         "overwriteDefaultWith": "region.nodeSelector",
-        "overwriteSchemaWith": "nodeSelector.json"
+        "overwriteSchemaWith": "nodeSelector-gpu.json"
       }
     },
     "ingress": {
@@ -794,7 +804,7 @@
             "hidden": true
           }
         },
-        "tlsSecretName":{
+        "tlsSecretName": {
           "type": "string",
           "default": "",
           "x-onyxia": {
@@ -938,7 +948,7 @@
             "overwriteDefaultWith": "user.lang"
           }
         },
-        "aiAssistant":{
+        "aiAssistant": {
           "title": "AI Assistant",
           "type": "object",
           "description": "Configure Continue, an extension to use custom AI code assistants",
@@ -956,7 +966,7 @@
             },
             "model": {
               "type": "string",
-              "default":"",
+              "default": "",
               "hidden": {
                 "value": false,
                 "path": "enabled",
@@ -978,7 +988,7 @@
                 "overwriteDefaultWith": "user.profile.aiAssistant.provider"
               }
             },
-            "apiBase":{
+            "apiBase": {
               "type": "string",
               "default": "",
               "hidden": {
@@ -990,7 +1000,7 @@
                 "overwriteDefaultWith": "user.profile.aiAssistant.apiBase"
               }
             },
-            "apiKey":{
+            "apiKey": {
               "type": "string",
               "default": "",
               "hidden": {
@@ -1002,7 +1012,7 @@
                 "overwriteDefaultWith": "user.profile.aiAssistant.apiKey"
               }
             },
-            "useLegacyCompletionsEndpoint":{
+            "useLegacyCompletionsEndpoint": {
               "title": "use legacy completions endpoint",
               "type": "boolean",
               "default": true,
@@ -1110,7 +1120,7 @@
       "properties": {
         "fr": {
           "type": "string",
-          "description": "message à ajouter dans les notes",
+          "description": "message \u00e0 ajouter dans les notes",
           "default": ""
         },
         "en": {
@@ -1118,6 +1128,15 @@
           "description": "message to add in notes",
           "default": ""
         }
+      }
+    },
+    "runtimeClassName": {
+      "type": "string",
+      "description": "Runtime Class Name",
+      "default": "",
+      "x-onyxia": {
+        "hidden": true,
+        "overwriteSchemaWith": "ide/runtimeClassName.json"
       }
     }
   }
