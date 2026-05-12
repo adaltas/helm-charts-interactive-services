@@ -309,6 +309,28 @@ entries:
     version: 0.0.1
   marimo-pytorch-gpu:
   - apiVersion: v2
+    created: "2026-05-12T14:48:03.174374409Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.4
+    description: Marimo reactive Python notebook with Python and the deep-learning
+      framework PyTorch, with GPU support.
+    digest: 8251d9aef44afeafa5e435fb2da9b741ff3c8874fe9ea12c8b4506414d14c54a
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - Marimo
+    - Python
+    name: marimo-pytorch-gpu
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-pytorch-gpu-0.0.2/marimo-pytorch-gpu-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
     created: "2026-05-12T14:18:49.971679476Z"
     dependencies:
     - name: library-chart
@@ -652,4 +674,4 @@ entries:
     urls:
     - https://github.com/adaltas/helm-charts-interactive-services/releases/download/vscode-tensorflow-gpu-2.5.5/vscode-tensorflow-gpu-2.5.5.tgz
     version: 2.5.5
-generated: "2026-05-12T14:18:50.785777755Z"
+generated: "2026-05-12T14:48:03.174389467Z"
