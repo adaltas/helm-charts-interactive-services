@@ -1,10 +1,10 @@
-# marimo-python-gpu
+# vscode-python-gpu
 
-![Version: 0.0.2](https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.5.5](https://img.shields.io/badge/Version-2.5.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-Marimo reactive Python notebook with Python, and a collection of standard data science packages, with GPU support.
+The VSCOde IDE with Python, Julia, and a collection of standard data science packages, with GPU support.
 
-**Homepage:** <https://marimo.io/>
+**Homepage:** <https://code.visualstudio.com/>
 
 ## Source Code
 
@@ -75,7 +75,7 @@ Marimo reactive Python notebook with Python, and a collection of standard data s
 | mlflow.secretName | string | `""` |  |
 | nameOverride | string | `""` |  |
 | networking.clusterIP | string | `"None"` |  |
-| networking.service.port | int | `2718` |  |
+| networking.service.port | int | `8080` |  |
 | networking.type | string | `"ClusterIP"` |  |
 | networking.user.enabled | bool | `false` |  |
 | networking.user.port | int | `5000` |  |
@@ -121,9 +121,9 @@ Marimo reactive Python notebook with Python, and a collection of standard data s
 | security.password | string | `"changeme"` |  |
 | securityContext | object | `{}` |  |
 | service.image.custom.enabled | bool | `false` |  |
-| service.image.custom.version | string | `"pacordonnier/marimo-python:py3.13.12-gpu"` |  |
+| service.image.custom.version | string | `"inseefrlab/onyxia-vscode-python:py3.13.12-gpu"` |  |
 | service.image.pullPolicy | string | `"IfNotPresent"` |  |
-| service.image.version | string | `"pacordonnier/marimo-python:py3.13.12-gpu"` |  |
+| service.image.version | string | `"inseefrlab/onyxia-vscode-python:py3.13.12-gpu"` |  |
 | service.initContainer.image | string | `"inseefrlab/onyxia-base:latest"` |  |
 | service.initContainer.pullPolicy | string | `"IfNotPresent"` |  |
 | serviceAccount.annotations | object | `{}` |  |

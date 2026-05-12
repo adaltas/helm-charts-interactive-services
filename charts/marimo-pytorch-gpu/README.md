@@ -75,7 +75,7 @@ Marimo reactive Python notebook with Python and the deep-learning framework PyTo
 | mlflow.secretName | string | `""` |  |
 | nameOverride | string | `""` |  |
 | networking.clusterIP | string | `"None"` |  |
-| networking.service.port | int | `8080` |  |
+| networking.service.port | int | `2718` |  |
 | networking.type | string | `"ClusterIP"` |  |
 | networking.user.enabled | bool | `false` |  |
 | networking.user.port | int | `5000` |  |
@@ -121,9 +121,9 @@ Marimo reactive Python notebook with Python and the deep-learning framework PyTo
 | security.password | string | `"changeme"` |  |
 | securityContext | object | `{}` |  |
 | service.image.custom.enabled | bool | `false` |  |
-| service.image.custom.version | string | `"inseefrlab/onyxia-vscode-pytorch:py3.13.12-gpu"` |  |
+| service.image.custom.version | string | `"pacordonnier/marimo-pytorch:py3.13.12-gpu"` |  |
 | service.image.pullPolicy | string | `"IfNotPresent"` |  |
-| service.image.version | string | `"inseefrlab/onyxia-vscode-pytorch:py3.13.12-gpu"` |  |
+| service.image.version | string | `"pacordonnier/marimo-pytorch:py3.13.12-gpu"` |  |
 | service.initContainer.image | string | `"inseefrlab/onyxia-base:latest"` |  |
 | service.initContainer.pullPolicy | string | `"IfNotPresent"` |  |
 | serviceAccount.annotations | object | `{}` |  |
