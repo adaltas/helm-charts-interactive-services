@@ -242,27 +242,6 @@ entries:
     version: 0.0.1
   marimo-python:
   - apiVersion: v2
-    created: "2026-05-11T15:32:51.602784885Z"
-    dependencies:
-    - name: library-chart
-      repository: https://inseefrlab.github.io/helm-charts-interactive-services
-      version: 2.0.1
-    description: A Helm chart for Marimo Python environment
-    digest: 84fc63a7695714e4d0c8f4c472fd7039169d5662844c1d527ddddae3043881c5
-    home: https://code.visualstudio.com/
-    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/vscode.png
-    keywords:
-    - Marimo
-    - Python
-    name: marimo-python
-    sources:
-    - https://github.com/InseeFrLab/images-datascience
-    - https://github.com/InseeFrLab/helm-charts-interactive-services
-    type: application
-    urls:
-    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-python-2.4.1/marimo-python-2.4.1.tgz
-    version: 2.4.1
-  - apiVersion: v2
     created: "2026-05-12T14:59:17.850935926Z"
     dependencies:
     - name: library-chart
