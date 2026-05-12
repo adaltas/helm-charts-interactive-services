@@ -5,11 +5,11 @@ service:
     image: inseefrlab/onyxia-base:latest
     pullPolicy: IfNotPresent
   image:
-    version: inseefrlab/onyxia-vscode-pytorch:py3.13.12-gpu
+    version: pacordonnier/marimo-pytorch:py3.13.12-gpu
     pullPolicy: IfNotPresent
     custom:
       enabled: false
-      version: inseefrlab/onyxia-vscode-pytorch:py3.13.12-gpu
+      version: pacordonnier/marimo-pytorch:py3.13.12-gpu
 security:
   password: changeme
   networkPolicy:
@@ -98,7 +98,7 @@ networking:
   type: ClusterIP
   clusterIP: None
   service:
-    port: 8080
+    port: 2718
   user:
     enabled: false
     port: 5000

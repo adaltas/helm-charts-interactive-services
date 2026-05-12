@@ -98,7 +98,7 @@ networking:
   type: ClusterIP
   clusterIP: None
   service:
-    port: 8080
+    port: 2718
   user:
     enabled: false
     port: 5000
