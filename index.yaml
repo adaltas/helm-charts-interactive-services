@@ -193,6 +193,30 @@ entries:
     urls:
     - https://github.com/adaltas/helm-charts-interactive-services/releases/download/library-chart-2.0.4/library-chart-2.0.4.tgz
     version: 2.0.4
+  marimo-pyspark:
+  - apiVersion: v2
+    created: "2026-05-12T14:18:47.906945795Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.4
+    description: Marimo reactive Python notebook with PySpark support.
+    digest: dd2d289720e44822654a050765dff9baeaba1a396f38666395947eba21731eb5
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - marimo
+    - Python
+    - Spark
+    - VTL
+    name: marimo-pyspark
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-pyspark-0.0.1/marimo-pyspark-0.0.1.tgz
+    version: 0.0.1
   marimo-python:
   - apiVersion: v2
     created: "2026-05-11T15:32:51.602784885Z"
@@ -215,6 +239,143 @@ entries:
     urls:
     - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-python-2.4.1/marimo-python-2.4.1.tgz
     version: 2.4.1
+  - apiVersion: v2
+    created: "2026-05-12T14:18:48.309030976Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.1
+    description: Marimo reactive Python notebook with Python, and a collection of
+      standard data science packages
+    digest: 833d2487682fd084b8c20ca044bf1552a2d59beba83474baabb4e0404c044731
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - Marimo
+    - Python
+    name: marimo-python
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-python-0.0.1/marimo-python-0.0.1.tgz
+    version: 0.0.1
+  marimo-python-gpu:
+  - apiVersion: v2
+    created: "2026-05-12T14:18:48.689457979Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.4
+    description: Marimo reactive Python notebook with Python, and a collection of
+      standard data science packages, with GPU support.
+    digest: 2d7e5e05317f9f976278230aefca0bf2bad6447fda42fae90946e117e2674ae0
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - Marimo
+    - Python
+    name: marimo-python-gpu
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-python-gpu-0.0.1/marimo-python-gpu-0.0.1.tgz
+    version: 0.0.1
+  marimo-pytorch:
+  - apiVersion: v2
+    created: "2026-05-12T14:18:49.558398357Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.4
+    description: Marimo reactive Python notebook with Python and the deep-learning
+      framework PyTorch.
+    digest: f34106ede5cddb91d3e073f5c395f510baecf91a446d94c68922eeac1c8fdfd3
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - Marimo
+    - Python
+    name: marimo-pytorch
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-pytorch-0.0.1/marimo-pytorch-0.0.1.tgz
+    version: 0.0.1
+  marimo-pytorch-gpu:
+  - apiVersion: v2
+    created: "2026-05-12T14:18:49.971679476Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.4
+    description: Marimo reactive Python notebook with Python and the deep-learning
+      framework PyTorch, with GPU support.
+    digest: e0bc29aa8b7a9360710ad8fd890f8ca00f9693e92f9343f70b4ce9cec3480225
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - Marimo
+    - Python
+    name: marimo-pytorch-gpu
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-pytorch-gpu-0.0.1/marimo-pytorch-gpu-0.0.1.tgz
+    version: 0.0.1
+  marimo-tensorflow:
+  - apiVersion: v2
+    created: "2026-05-12T14:18:50.390804406Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.4
+    description: Marimo reactive Python notebook with Python and the deep-learning
+      framework TensorFlow.
+    digest: b97de77dfc83cdfc0d1226312dfd3137227eb44e1214b6f09e7a4a91687b2ee0
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - Marimo
+    - Python
+    name: marimo-tensorflow
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-tensorflow-0.0.1/marimo-tensorflow-0.0.1.tgz
+    version: 0.0.1
+  marimo-tensorflow-gpu:
+  - apiVersion: v2
+    created: "2026-05-12T14:18:50.785757816Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 2.0.4
+    description: Marimo reactive Python notebook with Python and the deep-learning
+      framework TensorFlow, with GPU support.
+    digest: cadc9afa5396d5c4521ee589e62a2699bc568ea6a4942fdd8290a54202670565
+    home: https://marimo.io/
+    icon: https://minio.lab.sspcloud.fr/projet-onyxia/assets/servicesImg/marimo.png
+    keywords:
+    - Marimo
+    - Python
+    name: marimo-tensorflow-gpu
+    sources:
+    - https://github.com/InseeFrLab/images-datascience
+    - https://github.com/InseeFrLab/helm-charts-interactive-services
+    type: application
+    urls:
+    - https://github.com/adaltas/helm-charts-interactive-services/releases/download/marimo-tensorflow-gpu-0.0.1/marimo-tensorflow-gpu-0.0.1.tgz
+    version: 0.0.1
   rstudio:
   - apiVersion: v2
     created: "2026-05-11T15:32:51.822889617Z"
@@ -491,4 +652,4 @@ entries:
     urls:
     - https://github.com/adaltas/helm-charts-interactive-services/releases/download/vscode-tensorflow-gpu-2.5.5/vscode-tensorflow-gpu-2.5.5.tgz
     version: 2.5.5
-generated: "2026-05-11T15:32:54.465728854Z"
+generated: "2026-05-12T14:18:50.785777755Z"
