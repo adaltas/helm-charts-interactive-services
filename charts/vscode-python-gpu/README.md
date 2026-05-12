@@ -1,10 +1,10 @@
-# marimo-pytorch-gpu
+# vscode-python-gpu
 
-![Version: 0.0.3](https://img.shields.io/badge/Version-0.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.5.5](https://img.shields.io/badge/Version-2.5.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-Marimo reactive Python notebook with Python and the deep-learning framework PyTorch, with GPU support.
+The VSCOde IDE with Python, Julia, and a collection of standard data science packages, with GPU support.
 
-**Homepage:** <https://marimo.io/>
+**Homepage:** <https://code.visualstudio.com/>
 
 ## Source Code
 
@@ -75,7 +75,7 @@ Marimo reactive Python notebook with Python and the deep-learning framework PyTo
 | mlflow.secretName | string | `""` |  |
 | nameOverride | string | `""` |  |
 | networking.clusterIP | string | `"None"` |  |
-| networking.service.port | int | `2718` |  |
+| networking.service.port | int | `8080` |  |
 | networking.type | string | `"ClusterIP"` |  |
 | networking.user.enabled | bool | `false` |  |
 | networking.user.port | int | `5000` |  |
@@ -121,9 +121,9 @@ Marimo reactive Python notebook with Python and the deep-learning framework PyTo
 | security.password | string | `"changeme"` |  |
 | securityContext | object | `{}` |  |
 | service.image.custom.enabled | bool | `false` |  |
-| service.image.custom.version | string | `"pacordonnier/marimo-pytorch:py3.13.12-gpu"` |  |
+| service.image.custom.version | string | `"inseefrlab/onyxia-vscode-python:py3.13.12-gpu"` |  |
 | service.image.pullPolicy | string | `"IfNotPresent"` |  |
-| service.image.version | string | `"pacordonnier/marimo-pytorch:py3.13.12-gpu"` |  |
+| service.image.version | string | `"inseefrlab/onyxia-vscode-python:py3.13.12-gpu"` |  |
 | service.initContainer.image | string | `"inseefrlab/onyxia-base:latest"` |  |
 | service.initContainer.pullPolicy | string | `"IfNotPresent"` |  |
 | serviceAccount.annotations | object | `{}` |  |
